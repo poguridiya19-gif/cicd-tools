@@ -38,25 +38,25 @@ resource "aws_instance" "jenkins_agent" {
   )
 }
 
-resource "aws_instance" "sonar" {
-  count = var.sonar ? 1 : 0
-  ami           = local.sonar_ami_id
-  instance_type = "t3.large"
-  vpc_security_group_ids = [aws_security_group.main.id]
-  subnet_id = "subnet-0e183c806a6e13582" #replace your Subnet in default VPC
-  key_name = "daws-86s"
-  # need more for terraform
-  root_block_device {
-    volume_size = 20
-    volume_type = "gp3" # or "gp2", depending on your preference
-  }
-  tags = merge(
-    local.common_tags,
-    {
-        Name = "${var.project}-${var.environment}-sonar"
-    }
-  )
-}
+# resource "aws_instance" "sonar" {
+#   count = var.sonar ? 1 : 0
+#   ami           = local.sonar_ami_id
+#   instance_type = "t3.large"
+#   vpc_security_group_ids = [aws_security_group.main.id]
+#   subnet_id = "subnet-0e183c806a6e13582" #replace your Subnet in default VPC
+#   key_name = "daws-86s"
+#   # need more for terraform
+#   root_block_device {
+#     volume_size = 20
+#     volume_type = "gp3" # or "gp2", depending on your preference
+#   }
+#   tags = merge(
+#     local.common_tags,
+#     {
+#         Name = "${var.project}-${var.environment}-sonar"
+#     }
+#   )
+# }
 
 resource "aws_security_group" "main" {
   name        =  "${var.project}-${var.environment}-jenkins"
@@ -95,15 +95,15 @@ resource "aws_route53_record" "jenkins" {
   allow_overwrite = true
 }
 
-resource "aws_route53_record" "sonar" {
-  count = var.sonar ? 1 : 0
-  zone_id = var.zone_id
-  name    = "sonar.${var.zone_name}"
-  type    = "A"
-  ttl     = 1
-  records = [aws_instance.sonar[0].public_ip]
-  allow_overwrite = true
-}
+# resource "aws_route53_record" "sonar" {
+#   count = var.sonar ? 1 : 0
+#   zone_id = var.zone_id
+#   name    = "sonar.${var.zone_name}"
+#   type    = "A"
+#   ttl     = 1
+#   records = [aws_instance.sonar[0].public_ip]
+#   allow_overwrite = true
+# }
 
 resource "aws_route53_record" "jenkins-agent" {
   zone_id = var.zone_id
