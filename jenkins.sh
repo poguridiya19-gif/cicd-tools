@@ -22,7 +22,7 @@ yum clean all
 yum makecache
 
 # install java
-yum install fontconfig java-21-openjdk -y
+yum install fontconfig java-17-openjdk -y
 
 # install jenkins
 yum install jenkins -y
