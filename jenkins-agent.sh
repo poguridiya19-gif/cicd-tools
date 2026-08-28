@@ -12,8 +12,8 @@ xfs_growfs /var
 xfs_growfs /home
 
 # This is mandatory, nodejs installtion will break SSH if we dont update these packages
-dnf update -y openssl\* openssh\* -y
-yum install java-21-openjdk -y
+# dnf update -y openssl\* openssh\* -y
+yum install fontconfig java-21-openjdk -y
 # yum install fontconfig java-21-openjdk -y
 # yum install -y java-21-openjdk java-21-openjdk-devel
 
